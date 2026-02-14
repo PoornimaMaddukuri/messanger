@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Professional Messenger</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 90%;
+    max-width: 1000px;
+    height: 90vh;
+    background: white;
+    border-radius: 15px;
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+/* Sidebar */
+.sidebar {
+    width: 30%;
+    background: #f4f6fb;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+    color: #444;
+}
+
+.contact {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.contact:hover {
+    background: #e3e7ff;
+}
+
+/* Chat Section */
+.chat-section {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    padding: 20px;
+    background: #667eea;
+    color: white;
+    font-weight: bold;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: #f9f9f9;
+}
+
+.message {
+    margin-bottom: 15px;
+    max-width: 60%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.sent {
+    background: #667eea;
+    color: white;
+    margin-left: auto;
+}
+
+.received {
+    background: #e4e6eb;
+    color: black;
+}
+
+.chat-input {
+    display: flex;
+    padding: 15px;
+    border-top: 1px solid #ddd;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.chat-input button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background: #667eea;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.chat-input button:hover {
+    background: #5563c1;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(5px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+/* Responsive */
+@media(max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+    .chat-section {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    
+    <div class="sidebar">
+        <h2>Chats</h2>
+        <div class="contact">John Doe</div>
+        <div class="contact">Emma Watson</div>
+        <div class="contact">AI Assistant</div>
+    </div>
+
+    <div class="chat-section">
+        <div class="chat-header">
+            AI Assistant
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="message received">Hello! 👋 How can I help you today?</div>
+        </div>
+
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function sendMessage() {
+    const input = document.getElementById("messageInput");
+    const messageText = input.value.trim();
+    const chatMessages = document.getElementById("chatMessages");
+
+    if (messageText === "") return;
+
+    // Create sent message
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", "sent");
+    messageDiv.innerText = messageText;
+    chatMessages.appendChild(messageDiv);
+
+    input.value = "";
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    // Simulated auto-reply
+    setTimeout(() => {
+        const replyDiv = document.createElement("div");
+        replyDiv.classList.add("message", "received");
+        replyDiv.innerText = generateReply(messageText);
+        chatMessages.appendChild(replyDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }, 1000);
+}
+
+function generateReply(userMessage) {
+    const lower = userMessage.toLowerCase();
+
+    if (lower.includes("hello") || lower.includes("hi")) {
+        return "Hi there! 😊";
+    } else if (lower.includes("how are you")) {
+        return "I'm just code, but I'm running perfectly! 🚀";
+    } else {
+        return "That's interesting! Tell me more.";
+    }
+}
+
+// Enter key support
+document.getElementById("messageInput")
+.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        sendMessage();
+    }
+});
+</script>
+
+</body>
+</html>
